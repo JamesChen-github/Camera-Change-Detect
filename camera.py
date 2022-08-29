@@ -3,7 +3,7 @@ import time
 
 
 # 拍照并保存到raw_img路径
-def take_photo(raw_img="test_img.jpg"):
+def take_photo(raw_img="test_img2.jpg"):
     cap = cv2.VideoCapture(1, cv2.CAP_DSHOW) # 1是usb摄像头，0是电脑摄像头
     while not cap.isOpened():
         cap = cv2.VideoCapture(1, cv2.CAP_DSHOW) # 1是usb摄像头，0是电脑摄像头
@@ -11,8 +11,11 @@ def take_photo(raw_img="test_img.jpg"):
     cap.set(4,720)
     if(cap.get(3) != 1280 or cap.get(4) != 720):
         print("摄像头不支持1280*720分辨率!本次拍照分辨率为%d*%d!" % (cap.get(3), cap.get(4)))
+    
+    # time.sleep(3)
+    # cap.set(cv2.CAP_PROP_POS_FRAMES,100)  #设置要获取的帧号，这是第101帧（下标从0开始）
+    # cap.set(cv2.CAP_PROP_FOCUS,10)
     for i in range(1,51):
-        # cap.set(cv2.CAP_PROP_POS_FRAMES,100)  #设置要获取的帧号，这是第101帧（下标从0开始）
         ret, frame = cap.read()
     if ret == True:
         cv2.imwrite(raw_img, frame)

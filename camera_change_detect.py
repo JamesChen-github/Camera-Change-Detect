@@ -4,6 +4,7 @@ import sys
 import img_diff
 import cv2
 import camera
+import numpy as np
 
 class CamDet:
     # 运行次数
@@ -50,7 +51,7 @@ class CamDet:
         print("*******************************************************************************")
         
     
-    def __init__(self, coord=(0,0,1279,719), stop=True, detect='normal') -> None:
+    def __init__(self, coord=(0,0,1280,720), stop=True, detect='normal') -> None:
         """ 
             Parameters
             ------
@@ -97,7 +98,7 @@ class CamDet:
         print(self.focus_name,"初始化 coord=", self.coord, self.stop, self.detect)
         self.stdimg = os.path.join(self.compressed_dir, '1.jpg') # 一开始把1.jpg图片作为标准照片
     
-    # 对图片进行裁剪和压缩
+    # 对图片进行裁剪、滤波和压缩
     def cut_img(self, img):
         # 裁剪
         left = self.coord[0]
@@ -109,6 +110,12 @@ class CamDet:
         return img
 
     def compress_img(self, img):
+        # 高斯滤波
+        # img = cv2.GaussianBlur(src=img, ksize=(11,11), sigmaX=2, sigmaY=2)
+        # kernel_3x3 = np.array([[1/16, 1/8, 1/16],
+        #                         [1/8, 1/4, 1/8],
+        #                         [1/16, 1/8, 1/16]])
+        # img = cv2.filter2D(img, 3, kernel_3x3)
         # 压缩
         # if img.shape[1] >= 500 and img.shape[0] >= 333:
         #     size = (int(img.shape[1]/5), int(img.shape[0]/5))
@@ -170,8 +177,8 @@ class CamDet:
 # 调用方法
 if __name__ == "__main__":
     cd1 = CamDet(stop=False,detect='normal')
-    cd2 = CamDet(coord=(215,116,417,218),stop=False,detect='normal')
-    cd3 = CamDet(coord=(10,129,149,365), stop=False, detect='normal')
-    cd4 = CamDet(coord=(566,170,807,414), stop=False)
-    for i in range(1,20):
+    cd2 = CamDet(coord=(0,0,640,360),stop=False,detect='normal')
+    cd3 = CamDet(coord=(640,0,1280,360), stop=False, detect='normal')
+    cd4 = CamDet(coord=(0,360,640,720), stop=False)
+    for i in range(1,10):
         CamDet.detect_change(cd1,cd2,cd3,cd4)

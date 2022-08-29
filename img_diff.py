@@ -33,7 +33,7 @@ def dHash(img):
     # 每行前一个像素大于后一个像素为1，相反为0，生成哈希
     for i in range(img.shape[0]):
         for j in range(img.shape[1]-1):
-            if abs(int(gray[i, j]) - int(gray[i, j+1])) < 21: # 如果差异小于21个灰度级，统一标记为2，目的是减小误差
+            if abs(int(gray[i, j]) - int(gray[i, j+1])) < 16: # 如果差异小于16个灰度级，统一标记为2，目的是减小误差
                 hash_str = hash_str+'2'
             elif gray[i, j] > gray[i, j+1]:
                 hash_str = hash_str+'1'
